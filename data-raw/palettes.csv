@@ -1,0 +1,11 @@
+palette,palette_type,color_name,hex
+epicentre-main,qualitative,primary,#2E4473
+epicentre-main,qualitative,primary-light,#E4EDF3
+epicentre-main,qualitative,secondary,#A1B8CF
+epicentre-main,qualitative,secondary-light,#F5F9FB
+epicentre-main,qualitative,dark-grey,#C5C5C5
+epicentre-main,qualitative,light-grey,#F8F8F8
+epicentre-main,qualitative,red-primary,#C0392B
+epicentre-main,qualitative,red-secondary,#F9EBEA
+epicentre-main,qualitative,yellow-primary,#FAB872
+epicentre-main,qualitative,yellow-secondary,#FEF6E7
