@@ -28,6 +28,7 @@ epitheme_gg(
   axis_title_face = "plain",
   axis_title_just = "rt",
   plot_margin = ggplot2::margin(10, 10, 10, 10),
+  legend_position = "right",
   grid_col = "#cccccc",
   grid = TRUE,
   axis_col = "#cccccc",
@@ -56,6 +57,8 @@ epitheme_gg(
 
 \item{plot_margin}{plot margin (specify with ggplot2::margin())}
 
+\item{legend_position}{`chr` legend position on plot. One of `c("top", "bottom", "left", "right", "none")`}
+
 \item{grid_col, axis_col}{grid & axis colors; both default to ⁠#cccccc⁠}
 
 \item{grid}{panel grid (TRUE, FALSE, or a combination of X, x, Y, y)}
@@ -71,10 +74,6 @@ a ggplot theme
 Epurated Ggplot theme (inspired from hrbrthemes)
 }
 \examples{
-
-## Not run:
-library(ggplot2)
-library(dplyr)
 
 library(ggplot2)
 ggplot(data = iris) +

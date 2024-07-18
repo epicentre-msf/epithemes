@@ -7,7 +7,7 @@
 scale_color_epi(palette, n)
 }
 \arguments{
-\item{palette}{The name of the chosen palette. Choices are from: \code{"epicentre-main"}.}
+\item{palette}{The name of the chosen palette. Choices are from: \code{"main"}.}
 
 \item{n}{The integer length of the desired palette. Default value is the length of the specified palette.}
 }
@@ -23,6 +23,6 @@ library(ggplot2)
 ggplot(data = iris,
 aes(x = Petal.Length, y = Petal.Width, col = Species)) +
 geom_point(size = 3) +
-epithemes::scale_color_epi(palette = "epicentre-main", n = 3)
+epithemes::scale_color_epi(palette = "main", n = 3)
 
 }

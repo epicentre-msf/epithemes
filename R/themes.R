@@ -10,6 +10,7 @@
 #' @param axis_title_family,axis_title_size,axis_title_face axis title font family, face and size
 #' @param axis_title_just axis title font justification
 #' @param plot_margin plot margin (specify with ggplot2::margin())
+#' @param legend_position `chr` legend position on plot. One of `c("top", "bottom", "left", "right", "none")`
 #' @param grid_col,axis_col grid & axis colors; both default to ⁠#cccccc⁠
 #' @param grid panel grid (TRUE, FALSE, or a combination of X, x, Y, y)
 #' @param axis add x or y axes? TRUE, FALSE, "xy"
@@ -19,10 +20,6 @@
 #' @export
 #'
 #' @examples
-#'
-#' ## Not run:
-#' library(ggplot2)
-#' library(dplyr)
 #'
 #' library(ggplot2)
 #' ggplot(data = iris) +
@@ -53,6 +50,7 @@ epitheme_gg <- function(
     axis_title_face = "plain",
     axis_title_just = "rt",
     plot_margin = ggplot2::margin(10, 10, 10, 10),
+    legend_position = "right",
     grid_col = "#cccccc",
     grid = TRUE,
     axis_col = "#cccccc",
@@ -175,6 +173,8 @@ epitheme_gg <- function(
   )
 
   ret <- ret + ggplot2::theme(
+
+    legend.position = legend_position,
     axis.text.x = ggplot2::element_text(
       size = axis_text_size,
       margin = ggplot2::margin(t = 0)
@@ -242,46 +242,61 @@ epitheme_gg <- function(
 
 #' Table styling for gt table
 #'
-#' @param table a table to be converted to gt
-#' @param convert_gt boolean. Is there a need convert the df to gt ?
-#'
+#' @param table a table
+#' @param convert_gt `lgl` Convert the `table` to gt ?. Default is `TRUE`
+#' @param source_note `chr` footnote to add to the table
+#' @param fmt_percent `var` variables to format to percentages
+#' @param pct_decimal `num` decimals for percentages
+#' @param fmt_na `chr` Markdown string to format `NA` values
+#' @param stripped `lgl` Show stripped rows?
 #' @return a gt object formatted
 #' @export
 #'
+#'
 #' @examples
 #'
-#' tab <- iris|>
+#' iris|>
+#'
 #' dplyr::summarise(
 #'   .by = Species,
 #'   n = dplyr::n(),
 #'   max_sepal = max(Sepal.Length, na.rm = TRUE),
 #'   n_setosa = sum(Species == "setosa", na.rm = TRUE),
 #'   setosa_pct = round(digits = 2, (n_setosa / n) * 100)
-#' )
+#' ) |>
 #'
-#' tab |>
 #'   epitheme_gt() |>
+#'
 #'   gt::tab_footnote("This dataset is pretty boring")
 #'
-#' @import gt
+#' @import gt dplyr
 #' @export
+#'
 
-epitheme_gt <- function(table, convert_gt = TRUE ) {
+epitheme_gt <- function(table,
+                        convert_gt = TRUE,
+                        source_note = NULL,
+                        fmt_percent = NULL,
+                        pct_decimal = 1,
+                        fmt_na =  "*-*",
+                        stripped = TRUE) {
 
   if(convert_gt){gt <- gt <- gt::gt(table) } else { gt <- table}
 
-  gt |>
+  gt <- gt |>
 
     # style of col labels
     gt::tab_style(
-      style = list(gt::cell_text(
-        weight = "bold",
-        size = "14px",
-        align = "center"
-      )),
+      style = list(
+        gt::cell_text(
+          weight = "bold",
+          size = "14px",
+          align = "center"
+        )
+      ),
       locations = gt::cells_column_labels()
     ) |>
-    # style of body
+    # style of body cells
     gt::tab_style(
       style = list(
         gt::cell_text(
@@ -311,6 +326,136 @@ epitheme_gt <- function(table, convert_gt = TRUE ) {
         align = "right",
         size = "11px"
       )
-    )
+    ) |>
+
+    gt::fmt_percent(fmt_percent, decimals = pct_decimal) |>
+
+    #style missing values
+    gt::sub_missing(missing_text = gt::md(fmt_na)) |>
+
+    #disable quarto modification
+    gt::tab_options(quarto.disable_processing = TRUE,
+                    #column_labels.border.top.color = "#2E4473",
+                    #column_labels.border.bottom.color = "#2E4473",
+                    #table.border.bottom.color = "#2E4473",
+                    #table_body.border.bottom.color = "#2E4473"
+
+                    )
+
+  if(stripped){
+    gt <- gt |>
+      #strip table
+      gt::tab_style(style = cell_fill(color = "#A1B8CF", alpha = .2),
+                    locations = cells_body(rows = seq(1, nrow(table), 2)))
+  }
+
+  if(length(source_note)) {gt <- gt |> gt::tab_source_note(gt::md(source_note)) }
+
   return(gt)
+
+}
+
+#' List available logos
+#'
+#' @return character vector of logos names
+#' @export
+#'
+#' @examples
+#' list_logo()
+list_logo <- function(){ list.files("inst/logos")}
+
+#' Visualise a logo
+#'
+#' @param logo_name Name of a logo. Available logos are found with list_logo()
+#'
+#' @return plots a rastergrob grob of given logo
+#' @export
+#'
+#' @examples
+view_logo <- function(logo_name){
+
+  if( !(logo_name %in% epithemes::list_logo())) {stop("Invalid logo_name, use epithemes::list_logo() to see available logos")}
+
+  img <- png::readPNG(here::here("inst", "logos", logo_name))
+
+  grid::grid.newpage()
+  grid::grid.raster(img)
+
+}
+
+#' Add a logo to ggplot
+#'
+#' @param gg a ggplot object
+#' @param logo_name `chr` a valid logo name. List available at `epithemes::list_logo()`
+#' @param position `chr`. A quick way to position the label. options are `c("bottom-right", "bottom-left", "top-left", "top-right")`
+#' @param x `num` If `position` does not suit you, use `x` and `y` args to specify the logo position in `npc` units
+#' @param y `num` If `position` does not suit you, use `x` and `y` args to specify the logo position in `npc` units
+#' @param size `num` width size of the logo in `lines`. Aspect ratio is maitained.
+#'
+#' @return a ggplot object with a logo at the right position
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' gg_plot <- ggplot(data = iris) +
+#'   geom_histogram(aes(x = Sepal.Length)) +
+#'   epitheme_gg()
+
+add_logo_gg <- function(gg,
+                        logo_name,
+                        position = "bottom-left",
+                        x = NULL,
+                        y = NULL,
+                        size
+){
+  match.arg(position, c("bottom-right", "bottom-left", "top-left", "top-right"))
+
+  if( !(logo_name %in% epithemes::list_logo())) {stop("Invalid logo_name, use epithemes::list_logo() to see available logos")}
+
+  pos <- data.frame(position = c("bottom-left", "bottom-right", "top-left", "top-right"),
+                    x = c(ggplot2::unit(.1, "npc"), ggplot2::unit(.9, "npc"), ggplot2::unit(.1, "npc"), ggplot2::unit(.9, "npc")),
+                    y = c(ggplot2::unit(-.08, "npc"), ggplot2::unit(-.08, "npc"), ggplot2::unit(1.05, "npc"), ggplot2::unit(1.05, "npc"))
+  )
+
+  if(!is.null(x) & is.null(y) ) { stop("Please provide a y value")}
+  if(!is.null(y) & is.null(x) ) { stop("Please provide a x value")}
+
+  if(!is.null(x)){
+
+    if(y > 0 ){
+      top <- 3
+      bottom <- 1
+
+    } else {
+      top <- 1
+      bottom <- 3
+    }
+
+    x_val <- ggplot2::unit(x, "npc")
+    y_val <- ggplot2::unit(y, "npc")
+
+  } else {
+
+    if(grepl("top", position)){ top <- 3 } else { top <- 1}
+    if(grepl("bottom", position)){ bottom <- 3 } else { bottom <- 1}
+
+    x_val <- pos[pos$position == position,]$x
+    y_val <- pos[pos$position == position,]$y
+
+  }
+
+  width <- ggplot2::unit(size, "lines")
+
+  logo <- grid::rasterGrob(png::readPNG(here::here("inst", "logos", logo_name) ),
+                           interpolate = TRUE,
+                           x = x_val,
+                           y = y_val,
+                           width = width
+  )
+
+  gg +
+    ggplot2::theme(plot.margin = ggplot2::unit(c(top, 1, bottom, 1), "lines")) +
+    ggplot2::coord_cartesian(clip = "off") +
+    ggplot2::annotation_custom(logo)
+
 }

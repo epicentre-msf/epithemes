@@ -22,7 +22,7 @@ epicentre_pal
 epipal(palette, n, interpolate = TRUE)
 }
 \arguments{
-\item{palette}{The name of the chosen palette. Choices are from: \code{"epicentre-main"}.}
+\item{palette}{The name of the chosen palette. Choices are from: \code{"main"}.}
 
 \item{n}{The integer length of the desired palette. Default value is the length of the specified palette.}
 
@@ -37,7 +37,7 @@ Color palettes for Epicentre
 Makes a discrete colour palette of length \code{n} from the chosen palette.
 }
 \examples{
-epithemes::epipal(palette = "epicentre-main", n = 6)
+epithemes::epipal(palette = "main", n = 6)
 
 }
 \keyword{datasets}

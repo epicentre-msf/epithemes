@@ -1,11 +1,33 @@
-palette,palette_type,color_name,hex
-epicentre-main,qualitative,primary,#2E4473
-epicentre-main,qualitative,primary-light,#E4EDF3
-epicentre-main,qualitative,secondary,#A1B8CF
-epicentre-main,qualitative,secondary-light,#F5F9FB
-epicentre-main,qualitative,dark-grey,#C5C5C5
-epicentre-main,qualitative,light-grey,#F8F8F8
-epicentre-main,qualitative,red-primary,#C0392B
-epicentre-main,qualitative,red-secondary,#F9EBEA
-epicentre-main,qualitative,yellow-primary,#FAB872
-epicentre-main,qualitative,yellow-secondary,#FEF6E7
+palette	palette_type	color_name	hex
+main	qualitative	primary	#2E4473
+main	qualitative	primary-light	#E4EDF3
+main	qualitative	secondary	#A1B8CF
+main	qualitative	secondary-light	#F5F9FB
+main	qualitative	dark-grey	#C5C5C5
+main	qualitative	light-grey	#F8F8F8
+main	qualitative	red-primary	#C0392B
+main	qualitative	red-secondary	#F9EBEA
+main	qualitative	yellow-primary	#FAB872
+main	qualitative	yellow-secondary	#FEF6E7
+epiblues	sequential	primary	#2E4473
+epiblues	sequential	epi-blue2	#687EA1
+epiblues	sequential	epi-blue3	#859BB8
+epiblues	sequential	epi-blue4	#93AAC4
+epiblues	sequential	secondary	#A1B8CF
+epiclass	qualitative	confirmed	#9e2a2b
+epiclass	qualitative	probable	#e09f3e
+epiclass	qualitative	suspected	#fff3b0
+epiclass	qualitative	noncase	#335c67
+france	sequential	france1	#00043a
+france	sequential	france2	#002962
+france	sequential	france3	#004e89
+france	sequential	france4	#407ba7
+france	sequential	white	#ffffff
+france	sequential	france6	#ff002b
+france	sequential	france7	#c00021
+france	sequential	france8	#a0001c
+france	sequential	france9	#800016
+			
+			
+			
+			

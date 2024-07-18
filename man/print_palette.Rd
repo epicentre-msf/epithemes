@@ -7,7 +7,7 @@
 print_palette(palette, n)
 }
 \arguments{
-\item{palette}{The name of the chosen palette. Choices are from: \code{"epicentre-main"}.}
+\item{palette}{The name of the chosen palette. Choices are from: \code{"main"}.}
 
 \item{n}{The integer length of the desired palette. Default value is the length of the specified palette.}
 }
@@ -18,7 +18,7 @@ A plot showing the colours of the chosen colour palette.
 Prints the chosen palette of length \code{n}.
 }
 \examples{
-print_palette(palette = "epicentre-main")
-print_palette(palette = "epicentre-main", n = 5)
-print_palette(palette = "epicentre-main", n = 5)
+print_palette(palette = "main")
+print_palette(palette = "main", n = 5)
+print_palette(palette = "main", n = 5)
 }

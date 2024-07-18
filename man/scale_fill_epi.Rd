@@ -7,7 +7,7 @@
 scale_fill_epi(palette, n)
 }
 \arguments{
-\item{palette}{The name of the chosen palette. Choices are from: \code{"epicentre-main"}.}
+\item{palette}{The name of the chosen palette. Choices are from: \code{"main"}.}
 
 \item{n}{The integer length of the desired palette. Default value is the length of the specified palette.}
 }
@@ -23,6 +23,6 @@ library(ggplot2)
 ggplot(data = iris,
 aes(x = Species, y = Petal.Width, fill = Species)) +
 geom_violin() +
-epithemes::scale_fill_epi(palette = "epicentre-main", n = 3)
+epithemes::scale_fill_epi(palette = "main", n = 3)
 
 }

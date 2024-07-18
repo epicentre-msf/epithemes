@@ -18,5 +18,5 @@ a length 1 names vector of color_name and the according hex value
 Extract Hex value from a palette
 }
 \examples{
-epithemes::get_hex("epicentre-main", "primary")
+epithemes::get_hex("main", "primary")
 }

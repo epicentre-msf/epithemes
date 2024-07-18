@@ -4,12 +4,30 @@
 \alias{epitheme_gt}
 \title{Table styling for gt table}
 \usage{
-epitheme_gt(table, convert_gt = TRUE)
+epitheme_gt(
+  table,
+  convert_gt = TRUE,
+  source_note = NULL,
+  fmt_percent = NULL,
+  pct_decimal = 1,
+  fmt_na = "*-*",
+  stripped = TRUE
+)
 }
 \arguments{
-\item{table}{a table to be converted to gt}
+\item{table}{a table}
 
-\item{convert_gt}{boolean. Is there a need convert the df to gt ?}
+\item{convert_gt}{`lgl` Convert the `table` to gt ?. Default is `TRUE`}
+
+\item{source_note}{`chr` footnote to add to the table}
+
+\item{fmt_percent}{`var` variables to format to percentages}
+
+\item{pct_decimal}{`num` decimals for percentages}
+
+\item{fmt_na}{`chr` Markdown string to format `NA` values}
+
+\item{stripped}{`lgl` Show stripped rows?}
 }
 \value{
 a gt object formatted
@@ -19,17 +37,18 @@ Table styling for gt table
 }
 \examples{
 
-tab <- iris|>
+iris|>
+
 dplyr::summarise(
   .by = Species,
   n = dplyr::n(),
   max_sepal = max(Sepal.Length, na.rm = TRUE),
   n_setosa = sum(Species == "setosa", na.rm = TRUE),
   setosa_pct = round(digits = 2, (n_setosa / n) * 100)
-)
+) |>
 
-tab |>
   epitheme_gt() |>
+
   gt::tab_footnote("This dataset is pretty boring")
 
 }

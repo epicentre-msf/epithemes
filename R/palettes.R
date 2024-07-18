@@ -38,7 +38,7 @@ list_palettes <- function(type) {
   # Get palettes
   pals <- unique(
     epithemes::epicentre_pal[epithemes::epicentre_pal$palette_type %in% type,
-                  c("palette", "palette_type")]
+                             c("palette", "palette_type")]
   )
 
   out <- sort(pals$palette)
@@ -51,14 +51,14 @@ list_palettes <- function(type) {
 #'
 #' Makes a discrete colour palette of length \code{n} from the chosen palette.
 #'
-#' @param palette The name of the chosen palette. Choices are from: \code{"epicentre-main"}.
+#' @param palette The name of the chosen palette. Choices are from: \code{"main"}.
 #' @param n The integer length of the desired palette. Default value is the length of the specified palette.
 #' @param interpolate Boolean. Indicates whether sequential or diverging palettes should interpolate between colours; this argument is not available for qualitative palettes. Default value is TRUE.
 #'
 #' @return A vector of colours.
 #'
 #' @examples
-#' epithemes::epipal(palette = "epicentre-main", n = 6)
+#' epithemes::epipal(palette = "main", n = 6)
 #'
 #' @rdname epicentre_pal
 #' @export
@@ -100,7 +100,7 @@ epipal <- function(palette, n, interpolate = TRUE) {
 #'
 #' Prints the chosen palette of length \code{n}.
 #'
-#' @param palette The name of the chosen palette. Choices are from: \code{"epicentre-main"}.
+#' @param palette The name of the chosen palette. Choices are from: \code{"main"}.
 #' @param n The integer length of the desired palette. Default value is the length of the specified palette.
 #'
 #' @return A plot showing the colours of the chosen colour palette.
@@ -109,9 +109,9 @@ epipal <- function(palette, n, interpolate = TRUE) {
 #'
 #' @rdname print_palette
 #' @examples
-#' print_palette(palette = "epicentre-main")
-#' print_palette(palette = "epicentre-main", n = 5)
-#' print_palette(palette = "epicentre-main", n = 5)
+#' print_palette(palette = "main")
+#' print_palette(palette = "main", n = 5)
+#' print_palette(palette = "main", n = 5)
 #' @export
 print_palette <- function(palette, n) {
 
@@ -133,9 +133,17 @@ print_palette <- function(palette, n) {
 #' @export
 #'
 #' @examples
-#' epithemes::get_hex("epicentre-main", "primary")
+#' epithemes::get_hex("main", "primary")
 #' @export
 get_hex <- function(palette, color_name) {
+
+  if( nrow(epithemes::epicentre_pal[epithemes::epicentre_pal$palette == palette, ]) == 0 ) {
+    stop("Invalid palette name, use epithemes::list_palettes() to list available palettes")
+  }
+
+  if( nrow(epithemes::epicentre_pal[epithemes::epicentre_pal$color_name == color_name, ]) == 0 ) {
+    stop("Invalid color_name, explore available colors with epithemes::epicentre_pal")
+  }
 
   col_info <- epithemes::epicentre_pal[epithemes::epicentre_pal$palette == palette & epithemes::epicentre_pal$color_name == color_name, ]
 
@@ -150,7 +158,7 @@ get_hex <- function(palette, color_name) {
 #'
 #' Makes a discrete colour scale of length \code{n} from the chosen palette.
 #'
-#' @param palette The name of the chosen palette. Choices are from: \code{"epicentre-main"}.
+#' @param palette The name of the chosen palette. Choices are from: \code{"main"}.
 #' @param n The integer length of the desired palette. Default value is the length of the specified palette.
 #'
 #' @return A discrete scale to use for colour in ggplot.
@@ -161,7 +169,7 @@ get_hex <- function(palette, color_name) {
 #' ggplot(data = iris,
 #' aes(x = Petal.Length, y = Petal.Width, col = Species)) +
 #' geom_point(size = 3) +
-#' epithemes::scale_color_epi(palette = "epicentre-main", n = 3)
+#' epithemes::scale_color_epi(palette = "main", n = 3)
 #'
 #' @importFrom ggplot2 ggplot aes scale_color_manual
 #'
@@ -179,7 +187,7 @@ scale_color_epi <- function(palette, n) {
 #'
 #' Makes a discrete fill scale of length \code{n} from the chosen palette.
 #'
-#' @param palette The name of the chosen palette. Choices are from: \code{"epicentre-main"}.
+#' @param palette The name of the chosen palette. Choices are from: \code{"main"}.
 #' @param n The integer length of the desired palette. Default value is the length of the specified palette.
 #'
 #' @return A discrete scale to use for fill in ggplot.
@@ -190,7 +198,7 @@ scale_color_epi <- function(palette, n) {
 #' ggplot(data = iris,
 #' aes(x = Species, y = Petal.Width, fill = Species)) +
 #' geom_violin() +
-#' epithemes::scale_fill_epi(palette = "epicentre-main", n = 3)
+#' epithemes::scale_fill_epi(palette = "main", n = 3)
 #'
 #' @importFrom ggplot2 ggplot aes scale_fill_manual
 #'
