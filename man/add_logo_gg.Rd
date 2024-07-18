@@ -30,4 +30,11 @@ library(ggplot2)
 gg_plot <- ggplot(data = iris) +
   geom_histogram(aes(x = Sepal.Length)) +
   epitheme_gg()
+
+  add_logo_gg(gg_plot,
+  "epicentre_msf_transparent.png",
+  size = 10,
+  position = "bottom-left"
+  )
+
 }

@@ -15,3 +15,6 @@ plots a rastergrob grob of given logo
 \description{
 Visualise a logo
 }
+\examples{
+view_logo("epicentre_msf_transparent.png")
+}

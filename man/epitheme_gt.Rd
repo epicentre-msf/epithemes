@@ -37,18 +37,15 @@ Table styling for gt table
 }
 \examples{
 
-iris|>
-
-dplyr::summarise(
-  .by = Species,
-  n = dplyr::n(),
-  max_sepal = max(Sepal.Length, na.rm = TRUE),
-  n_setosa = sum(Species == "setosa", na.rm = TRUE),
-  setosa_pct = round(digits = 2, (n_setosa / n) * 100)
-) |>
-
+iris |>
+  dplyr::summarise(
+    .by = Species,
+    n = dplyr::n(),
+    max_sepal = max(Sepal.Length, na.rm = TRUE),
+    n_setosa = sum(Species == "setosa", na.rm = TRUE),
+    setosa_pct = round(digits = 2, (n_setosa / n) * 100)
+  ) |>
   epitheme_gt() |>
-
   gt::tab_footnote("This dataset is pretty boring")
 
 }

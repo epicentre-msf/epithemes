@@ -27,35 +27,35 @@
 #'   epitheme_gg()
 #'
 epitheme_gg <- function(
-    base_family = "sans",
-    base_size = 10,
-    plot_title_family = base_family,
-    plot_title_size = 14,
-    plot_title_face = "bold",
-    plot_title_margin = 10,
-    subtitle_family = base_family,
-    subtitle_size = 9,
-    subtitle_face = "italic",
-    subtitle_margin = 15,
-    strip_text_family = base_family,
-    strip_text_size = 6,
-    strip_text_face = "plain",
-    caption_family = base_family,
-    caption_size = 9,
-    caption_face = "italic",
-    caption_margin = 10,
-    axis_text_size = base_size,
-    axis_title_family = subtitle_family,
-    axis_title_size = 10,
-    axis_title_face = "plain",
-    axis_title_just = "rt",
-    plot_margin = ggplot2::margin(10, 10, 10, 10),
-    legend_position = "right",
-    grid_col = "#cccccc",
-    grid = TRUE,
-    axis_col = "#cccccc",
-    axis = FALSE,
-    ticks = FALSE
+  base_family = "sans",
+  base_size = 10,
+  plot_title_family = base_family,
+  plot_title_size = 14,
+  plot_title_face = "bold",
+  plot_title_margin = 10,
+  subtitle_family = base_family,
+  subtitle_size = 9,
+  subtitle_face = "italic",
+  subtitle_margin = 15,
+  strip_text_family = base_family,
+  strip_text_size = 6,
+  strip_text_face = "plain",
+  caption_family = base_family,
+  caption_size = 9,
+  caption_face = "italic",
+  caption_margin = 10,
+  axis_text_size = base_size,
+  axis_title_family = subtitle_family,
+  axis_title_size = 10,
+  axis_title_face = "plain",
+  axis_title_just = "rt",
+  plot_margin = ggplot2::margin(10, 10, 10, 10),
+  legend_position = "right",
+  grid_col = "#cccccc",
+  grid = TRUE,
+  axis_col = "#cccccc",
+  axis = FALSE,
+  ticks = FALSE
 ) {
   ret <- ggplot2::theme_minimal(
     base_family = base_family,
@@ -173,7 +173,6 @@ epitheme_gg <- function(
   )
 
   ret <- ret + ggplot2::theme(
-
     legend.position = legend_position,
     axis.text.x = ggplot2::element_text(
       size = axis_text_size,
@@ -255,36 +254,37 @@ epitheme_gg <- function(
 #'
 #' @examples
 #'
-#' iris|>
-#'
-#' dplyr::summarise(
-#'   .by = Species,
-#'   n = dplyr::n(),
-#'   max_sepal = max(Sepal.Length, na.rm = TRUE),
-#'   n_setosa = sum(Species == "setosa", na.rm = TRUE),
-#'   setosa_pct = round(digits = 2, (n_setosa / n) * 100)
-#' ) |>
-#'
+#' iris |>
+#'   dplyr::summarise(
+#'     .by = Species,
+#'     n = dplyr::n(),
+#'     max_sepal = max(Sepal.Length, na.rm = TRUE),
+#'     n_setosa = sum(Species == "setosa", na.rm = TRUE),
+#'     setosa_pct = round(digits = 2, (n_setosa / n) * 100)
+#'   ) |>
 #'   epitheme_gt() |>
-#'
 #'   gt::tab_footnote("This dataset is pretty boring")
 #'
 #' @import gt dplyr
 #' @export
 #'
 
-epitheme_gt <- function(table,
-                        convert_gt = TRUE,
-                        source_note = NULL,
-                        fmt_percent = NULL,
-                        pct_decimal = 1,
-                        fmt_na =  "*-*",
-                        stripped = TRUE) {
-
-  if(convert_gt){gt <- gt <- gt::gt(table) } else { gt <- table}
+epitheme_gt <- function(
+  table,
+  convert_gt = TRUE,
+  source_note = NULL,
+  fmt_percent = NULL,
+  pct_decimal = 1,
+  fmt_na = "*-*",
+  stripped = TRUE
+) {
+  if (convert_gt) {
+    gt <- gt <- gt::gt(table)
+  } else {
+    gt <- table
+  }
 
   gt <- gt |>
-
     # style of col labels
     gt::tab_style(
       style = list(
@@ -327,32 +327,32 @@ epitheme_gt <- function(table,
         size = "11px"
       )
     ) |>
-
     gt::fmt_percent(fmt_percent, decimals = pct_decimal) |>
-
-    #style missing values
+    # style missing values
     gt::sub_missing(missing_text = gt::md(fmt_na)) |>
+    # disable quarto modification
+    gt::tab_options(
+      quarto.disable_processing = TRUE,
+      # column_labels.border.top.color = "#2E4473",
+      # column_labels.border.bottom.color = "#2E4473",
+      # table.border.bottom.color = "#2E4473",
+      # table_body.border.bottom.color = "#2E4473"
+    )
 
-    #disable quarto modification
-    gt::tab_options(quarto.disable_processing = TRUE,
-                    #column_labels.border.top.color = "#2E4473",
-                    #column_labels.border.bottom.color = "#2E4473",
-                    #table.border.bottom.color = "#2E4473",
-                    #table_body.border.bottom.color = "#2E4473"
-
-                    )
-
-  if(stripped){
+  if (stripped) {
     gt <- gt |>
-      #strip table
-      gt::tab_style(style = cell_fill(color = "#A1B8CF", alpha = .2),
-                    locations = cells_body(rows = seq(1, nrow(table), 2)))
+      # strip table
+      gt::tab_style(
+        style = cell_fill(color = "#A1B8CF", alpha = .2),
+        locations = cells_body(rows = seq(1, nrow(table), 2))
+      )
   }
 
-  if(length(source_note)) {gt <- gt |> gt::tab_source_note(gt::md(source_note)) }
+  if (length(source_note)) {
+    gt <- gt |> gt::tab_source_note(gt::md(source_note))
+  }
 
   return(gt)
-
 }
 
 #' List available logos
@@ -362,7 +362,9 @@ epitheme_gt <- function(table,
 #'
 #' @examples
 #' list_logo()
-list_logo <- function(){ list.files("inst/logos")}
+list_logo <- function() {
+  list.files(system.file("logos", package="epithemes") )
+}
 
 #' Visualise a logo
 #'
@@ -371,16 +373,16 @@ list_logo <- function(){ list.files("inst/logos")}
 #' @return plots a rastergrob grob of given logo
 #' @export
 #'
-#' @examples
-view_logo <- function(logo_name){
+#' @examples view_logo("epicentre_msf_transparent.png")
+view_logo <- function(logo_name) {
+  if (!(logo_name %in% epithemes::list_logo())) {
+    stop("Invalid logo_name, use epithemes::list_logo() to see available logos")
+  }
 
-  if( !(logo_name %in% epithemes::list_logo())) {stop("Invalid logo_name, use epithemes::list_logo() to see available logos")}
-
-  img <- png::readPNG(here::here("inst", "logos", logo_name))
+  img <- png::readPNG(system.file("logos", logo_name, package="epithemes"))
 
   grid::grid.newpage()
   grid::grid.raster(img)
-
 }
 
 #' Add a logo to ggplot
@@ -400,32 +402,44 @@ view_logo <- function(logo_name){
 #' gg_plot <- ggplot(data = iris) +
 #'   geom_histogram(aes(x = Sepal.Length)) +
 #'   epitheme_gg()
-
-add_logo_gg <- function(gg,
-                        logo_name,
-                        position = "bottom-left",
-                        x = NULL,
-                        y = NULL,
-                        size
-){
+#'
+#'   add_logo_gg(gg_plot,
+#'   "epicentre_msf_transparent.png",
+#'   size = 10,
+#'   position = "bottom-left"
+#'   )
+#'
+add_logo_gg <- function(
+  gg,
+  logo_name,
+  position = "bottom-left",
+  x = NULL,
+  y = NULL,
+  size
+) {
   match.arg(position, c("bottom-right", "bottom-left", "top-left", "top-right"))
 
-  if( !(logo_name %in% epithemes::list_logo())) {stop("Invalid logo_name, use epithemes::list_logo() to see available logos")}
+  if (!(logo_name %in% epithemes::list_logo())) {
+    stop("Invalid logo_name, use epithemes::list_logo() to see available logos")
+  }
 
-  pos <- data.frame(position = c("bottom-left", "bottom-right", "top-left", "top-right"),
-                    x = c(ggplot2::unit(.1, "npc"), ggplot2::unit(.9, "npc"), ggplot2::unit(.1, "npc"), ggplot2::unit(.9, "npc")),
-                    y = c(ggplot2::unit(-.08, "npc"), ggplot2::unit(-.08, "npc"), ggplot2::unit(1.05, "npc"), ggplot2::unit(1.05, "npc"))
+  pos <- data.frame(
+    position = c("bottom-left", "bottom-right", "top-left", "top-right"),
+    x = c(ggplot2::unit(.1, "npc"), ggplot2::unit(.9, "npc"), ggplot2::unit(.1, "npc"), ggplot2::unit(.9, "npc")),
+    y = c(ggplot2::unit(-.08, "npc"), ggplot2::unit(-.08, "npc"), ggplot2::unit(1.05, "npc"), ggplot2::unit(1.05, "npc"))
   )
 
-  if(!is.null(x) & is.null(y) ) { stop("Please provide a y value")}
-  if(!is.null(y) & is.null(x) ) { stop("Please provide a x value")}
+  if (!is.null(x) & is.null(y)) {
+    stop("Please provide a y value")
+  }
+  if (!is.null(y) & is.null(x)) {
+    stop("Please provide a x value")
+  }
 
-  if(!is.null(x)){
-
-    if(y > 0 ){
+  if (!is.null(x)) {
+    if (y > 0) {
       top <- 3
       bottom <- 1
-
     } else {
       top <- 1
       bottom <- 3
@@ -433,29 +447,34 @@ add_logo_gg <- function(gg,
 
     x_val <- ggplot2::unit(x, "npc")
     y_val <- ggplot2::unit(y, "npc")
-
   } else {
+    if (grepl("top", position)) {
+      top <- 3
+    } else {
+      top <- 1
+    }
+    if (grepl("bottom", position)) {
+      bottom <- 3
+    } else {
+      bottom <- 1
+    }
 
-    if(grepl("top", position)){ top <- 3 } else { top <- 1}
-    if(grepl("bottom", position)){ bottom <- 3 } else { bottom <- 1}
-
-    x_val <- pos[pos$position == position,]$x
-    y_val <- pos[pos$position == position,]$y
-
+    x_val <- pos[pos$position == position, ]$x
+    y_val <- pos[pos$position == position, ]$y
   }
 
   width <- ggplot2::unit(size, "lines")
 
-  logo <- grid::rasterGrob(png::readPNG(here::here("inst", "logos", logo_name) ),
-                           interpolate = TRUE,
-                           x = x_val,
-                           y = y_val,
-                           width = width
+  logo <- grid::rasterGrob(
+    png::readPNG(system.file("logos", logo_name, package="epithemes")),
+    interpolate = TRUE,
+    x = x_val,
+    y = y_val,
+    width = width
   )
 
   gg +
     ggplot2::theme(plot.margin = ggplot2::unit(c(top, 1, bottom, 1), "lines")) +
     ggplot2::coord_cartesian(clip = "off") +
     ggplot2::annotation_custom(logo)
-
 }
